@@ -19,3 +19,5 @@
 
 ### Create a new project
 ```cargo new example```
+```cargo build```
+```cargo run```
