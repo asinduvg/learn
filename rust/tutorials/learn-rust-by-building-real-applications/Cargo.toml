@@ -2,5 +2,6 @@
 
 members = [
     "example",
-    "mars_calc"
+    "mars_calc",
+    "server"
 ]
