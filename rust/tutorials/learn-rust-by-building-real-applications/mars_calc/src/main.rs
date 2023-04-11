@@ -4,10 +4,21 @@ fn main() {
     let mut input = String::new();
     
     io::stdin().read_line(&mut input);
-    println!("{}", input);
-    let mut mars_weight = calculate_weight_on_mars(100.0);
-    mars_weight = mars_weight * 1000.0;
-    println!("Weight on Mars: {}g", mars_weight);
+
+    borrow_string(&input);
+    own_string(input);
+
+    // println!("{}", input);
+    // let mut mars_weight = calculate_weight_on_mars(100.0);
+    // println!("Weight on Mars: {}kg", mars_weight);
+}
+
+fn borrow_string(s: &String) {
+    println!("{}", s);
+}
+
+fn own_string(s: String) {
+    println!("{}", s);
 }
 
 fn calculate_weight_on_mars(weight: f32) -> f32 {
