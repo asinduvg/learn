@@ -14,22 +14,22 @@ impl TryFrom<&[u8]> for Request {
     type Error = ParseError;
 
     fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
-        match str::from_utf8(buf) {
-            Ok(request) => {},
-            Err(_) => return Err(ParseError::InvalidEncoding)
-        }
 
-        match str::from_utf8(buf).or(Err(ParseError::InvalidEncoding)) {
-            Ok(request) => {},
-            Err(e) => return Err(e)
-        }
-
-        let request = str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?;
-
-        let requestAlt = str::from_utf8(buf)?;
+        let request = str::from_utf8(buf)?;
 
         unimplemented!()
     }
+}
+
+fn get_next_word(request: &str) -> Option<(&str, &str)> {
+    let mut iter = request.chars();
+
+    for (i, c) in request.chars().enumerate() {
+        if c == ' ' {
+            return Some((&request[..i], &request[i + 1..]));
+        }
+    }
+    None
 }
 
 pub enum ParseError {
