@@ -1,10 +1,9 @@
-pub enum StatusCode {
+use super::StatusCode;
 
-}
-
+#[derive(Debug)]
 pub struct Response {
     status_code: StatusCode,
-    body: Option<String>
+    body: Option<String>,
 }
 
 impl Response {
