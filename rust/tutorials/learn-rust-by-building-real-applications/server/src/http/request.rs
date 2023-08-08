@@ -1,15 +1,29 @@
-use std::str::Utf8Error;
 use super::method::{Method, MethodError};
-use std::error::Error;
-use std::fmt::{Display, Debug, Formatter, Result as FmtResult};
-use std::str;
 use super::QueryString;
+use std::error::Error;
+use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
+use std::str;
+use std::str::Utf8Error;
 
 #[derive(Debug)]
 pub struct Request<'buf> {
     path: &'buf str,
     query_string: Option<QueryString<'buf>>,
-    method: Method
+    method: Method,
+}
+
+impl<'buf> Request<'buf> {
+    pub fn path(&self) -> &str {
+        &self.path
+    }
+
+    pub fn method(&self) -> &Method {
+        &self.method
+    }
+
+    pub fn query_string(&self) -> Option<&QueryString> {
+        self.query_string.as_ref()
+    }
 }
 
 impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
@@ -17,7 +31,6 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 
     // GET /search?name=abc&sort=1 HTTP/1.1\r\n..HEADERS...
     fn try_from(buf: &'buf [u8]) -> Result<Self, Self::Error> {
-
         let request = str::from_utf8(buf)?;
 
         let (method, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
@@ -40,7 +53,7 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
         Ok(Self {
             path,
             query_string,
-            method
+            method,
         })
     }
 }
@@ -60,7 +73,7 @@ pub enum ParseError {
     InvalidRequest,
     InvalidEncoding,
     InvalidProtocol,
-    InvalidMethod
+    InvalidMethod,
 }
 
 impl ParseError {
@@ -69,7 +82,7 @@ impl ParseError {
             Self::InvalidRequest => "Invalid Request",
             Self::InvalidEncoding => "Invalid Encoding",
             Self::InvalidProtocol => "Invalid Protocol",
-            Self::InvalidMethod => "Invalid Method"
+            Self::InvalidMethod => "Invalid Method",
         }
     }
 }
