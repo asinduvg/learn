@@ -13,6 +13,8 @@ fn main() {
             .route("/", web::get().to(get_index))
             .route("/gcd", web::post().to(post_gcd))
     });
+    // 1. when we start the server, actix starts a pool of threads to handle incoming requests
+    // 2. each thread calls our closure to get a fresh copy of App
 
     println!("Serving on http://localhost:3000...");
     server
