@@ -10,7 +10,7 @@ fn main() {
     }
 
     if numbers.len() == 0 {
-        eprintln!("Usage: gcd NUMBER ...");
+        eprintln!("Usage: gcd NUMBER ..."); // write error message to standard error output stream
         std::process::exit(1);
     }
 
